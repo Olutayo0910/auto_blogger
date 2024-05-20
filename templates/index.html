@@ -62,8 +62,13 @@
                 </div>
             </div>
             
-            <!--Rolling circle-->
-            <div id="loading-circle" style="display: none;" class="load mx-auto mt-2"></div>
+            <!--Rolling circle
+            <div id="loading-circle" style="display: none;" class="load mx-auto mt-2"></div> -->
+
+            <div id="loading-spinner" class="relative flex justify-center items-center load mx-auto mt-8">
+                <div class="absolute animate-spin rounded-full h-24 w-24 border-t-2 border-b-2 border-green-500"></div>
+                <img src="https://www.svgrepo.com/show/509001/avatar-thinking-9.svg"  class="rounded-full h-20 w-20">
+            </div>
 
             <!--Generated blog article-->
             <section class="mt-10 flex-grow">
@@ -85,7 +90,7 @@
         const blogContent = document.getElementById('blogContent');
 
         if(youtubeLink) {
-                document.getElementById('loading-circle').style.display = 'block';
+                document.getElementById('loading-spinner').style.display = 'block';
                 
                 blogContent.innerHTML = ''; // Clear previous content
 
