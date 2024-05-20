@@ -25,51 +25,45 @@
             border-radius: 50%; /* Make it a circle */
             animation: rotate 1s linear infinite; /* Apply rotation animation */
         }
+
+        /* Custom class to increase height of text */
+        .text-tall {
+            transform: scaleY(1.2); /* Adjust this value to change the height */
+            display: inline-block; /* Ensure the transform doesn't affect surrounding elements */
+        }
     </style>
 </head>
-<body class="flex flex-col min-h-screen bg-gray-100 font-sans antialised">
+<body class="flex flex-col min-h-screen bg-green-500 font-sans antialiased">
     <!---Nav bar--->
-    <nav class="bg-green-500 p-4 text-white flex justify-between">
+    <nav class="bg-green-500 p-4 text-white flex justify-between border-b border-white">
         <div>
-            <h1 class="text-3xl font-bold">AUTOBLOGGER</h1> 
-        </div>
-        <div>
-            <a href="#" class="text-white hover:underline">Welome {{user.username}}! </a>
+            <a href="#" class="text-white hover:underline">Welcome {{user.username}}! </a>
             <a href="logout" class="text-white hover:underline">logout</a>
         </div>
     </nav>
-      
+    
     <!---Main--->
     <div class="flex-grow flex items-center justify-center">
         <div class="bg-white max-w-3xl mx-auto p-6 rounded-lg shadow-md transition-transform transform hover:scale-105 flex flex-col w-full">
-
             <!--Intro-->
             <div class="text-center">
-                <h2 class="font-semibold text-2xl mb-4">Welcome To AI Blog Generator</h2>
-                <p class="text-gray-700">Hi, Generate Unlimited Blogs with AI using this amazing app,
-                    insert your link and see the magic
-                </p>
+                <div>
+                    <h1 class="text-3xl text-green-500 font-bold text-tall">Bloogle</h1>
+                </div>
             </div>
-
-            <br>
-
             <!---Link section-->
             <div class="text-center font-semibold text-2xl">
-                <h2>Enter your Youtube Link</h2>
                 <div class="flex flex-col md:flex-row mt-4">
                     <input id="youtubelink" type="url" placeholder="Paste Your youtube link" class="flex-grow p-2 border border-green-500 rounded-l-md mb-2 md:mb-0">
                     <button id="generateBlogButton" class="bg-green-500 hover:bg-green-400 text-white rounded-r-md px-4 py-2 transition-colors">Generate Blog</button>
                 </div>
             </div>
             
-            <!--Rolling circle
-            <div id="loading-circle" style="display: none;" class="load mx-auto mt-2"></div> -->
-
-            <div id="loading-spinner" class="relative flex justify-center items-center load mx-auto mt-8">
+            <!--Rolling circle-->
+            <div id="loading-spinner" style="display: none;" class="relative flex justify-center items-center load mx-auto mt-8">
                 <div class="absolute animate-spin rounded-full h-24 w-24 border-t-2 border-b-2 border-green-500"></div>
-                <img src="https://www.svgrepo.com/show/509001/avatar-thinking-9.svg"  class="rounded-full h-20 w-20">
+                <img src="https://www.svgrepo.com/show/509001/avatar-thinking-9.svg" class="rounded-full h-20 w-20">
             </div>
-
             <!--Generated blog article-->
             <section class="mt-10 flex-grow">
                 <h2 class="text-xl mb-4 text-center font-semibold">Generated Article</h2>
@@ -82,20 +76,16 @@
     <footer class="text-center text-black mt-6">
         Powered by Olutayo Ogunlade
     </footer>
-</body>
-<script>
-    document.getElementById('generateBlogButton').addEventListener('click', async () => {
+    <script>
+        document.getElementById('generateBlogButton').addEventListener('click', async () => {
+            const youtubeLink = document.getElementById('youtubelink').value;
+            const blogContent = document.getElementById('blogContent');
 
-        const youtubeLink = document.getElementById('youtubelink').value;
-        const blogContent = document.getElementById('blogContent');
-
-        if(youtubeLink) {
+            if (youtubeLink) {
                 document.getElementById('loading-spinner').style.display = 'block';
-                
                 blogContent.innerHTML = ''; // Clear previous content
 
                 const endpointUrl = '/generate-blog';
-                
                 try {
                     const response = await fetch(endpointUrl, {
                         method: 'POST',
@@ -106,18 +96,16 @@
                     });
 
                     const data = await response.json();
-
                     blogContent.innerHTML = data.content;
-
                 } catch (error) {
                     console.error("Error occurred:", error);
                     alert("Something went wrong. Please try again later.");
-                    
                 }
-                document.getElementById('loading-circle').style.display = 'none';
+                document.getElementById('loading-spinner').style.display = 'none';
             } else {
                 alert("Please enter a YouTube link.");
             }
         });
-</script>
+    </script>
+</body>
 </html>
