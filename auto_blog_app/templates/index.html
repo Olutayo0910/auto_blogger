@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Blog Generator</title>
+    <!-- Link to Tailwind CSS for styling -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Link to Font Awesome for icons -->
     <script src="https://kit.fontawesome.com/1d95d16c4b.js" crossorigin="anonymous"></script>
     <style>
         /* Define keyframes for the rotation animation */
@@ -26,6 +28,8 @@
             border-radius: 50%; /* Make it a circle */
             animation: rotate 1s linear infinite; /* Apply rotation animation */
         }
+        
+        /* Style for text */
         span {
             font-size: 12px;
         }
@@ -38,38 +42,42 @@
     </style>
 </head>
 <body class="flex flex-col min-h-screen bg-gray-100 font-sans antialiased">
-    <!---Nav bar--->
+    <!-- Navigation bar -->
     <nav class="bg-gray-100 p-4 text-black flex justify-between border-b border-green-500">
         <div>
+            <!-- Links to external sites -->
             <a href="https://www.youtube.com/" class="mr-2 text-black hover:underline"><i class="fa-brands fa-youtube text-red-500"></i> YouTube</a>
             <a href="https://www.gmail.com/" class="text-black hover:underline"><i class="fa-solid fa-m"></i> Gmail</a>
-            
         </div>
+        
+            <!-- User welcome message and logout link -->
         <div>
-            <a href="#" class="text-black hover:underline">Welcome {{user.username}}! </a>
-            <a href="logout" class="text-black hover:underline">logout</a>
+            <a href="#" class="text-black hover:underline mx-4">Hi {{ user.username }}</a>
+            <a href="/blog-list" class="text-black hover:underline mx-4">Saved Blog Posts</a>
+            <a href="/logout" class="text-black hover:underline">Logout</a>
         </div>
     </nav>
     
-    <!---Main--->
+    <!-- Main content area -->
     <div class="flex-grow flex items-center justify-center">
         <div class="bg-white max-w-3xl mx-auto p-6 rounded-lg shadow-md transition-transform transform hover:scale-105 flex flex-col w-full">
-            <!---Link section-->
+            <!-- Link input section -->
             <div class="text-center font-semibold text-2xl">
-                <!---Logo--->
+                <!-- Logo -->
                 <h1 class="text-3xl text-center text-green-500 font-bold text-tall">Bloogle</h1>
                 <div class="flex flex-col md:flex-row mt-4">
-                    <input id="youtubelink" type="url" placeholder="Paste Your youtube link" class="flex-grow p-2 border border-green-500 rounded-l-md mb-2 md:mb-0">
+                    <input id="youtubelink" type="url" placeholder="Paste Your YouTube link" class="flex-grow p-2 border border-green-500 rounded-l-md mb-2 md:mb-0">
                     <button id="generateBlogButton" class="bg-green-500 hover:bg-green-400 text-white rounded-r-md px-4 py-2 transition-colors">Generate Blog</button>
                 </div>
             </div>
             
-            <!--Rolling circle-->
+            <!-- Loading spinner -->
             <div id="loading-spinner" style="display: none;" class="relative flex justify-center items-center load mx-auto mt-8">
                 <div class="absolute animate-spin rounded-full h-24 w-24 border-t-2 border-b-2 border-green-500"></div>
                 <img src="https://www.svgrepo.com/show/509001/avatar-thinking-9.svg" class="rounded-full h-20 w-20">
             </div>
-            <!--Generated blog article-->
+
+            <!-- Generated blog article section -->
             <section class="mt-10 flex-grow">
                 <h2 class="text-xl mb-4 text-center font-semibold">Generated Article</h2>
                 <div id="blogContent" class="mt-2 text-gray-700 space-y-2">
@@ -78,19 +86,23 @@
         </div>
     </div>
 
+    <!-- Footer -->
     <footer class="text-center text-black mt-6">
         Powered by Olutayo Ogunlade
     </footer>
+
+    <!-- JavaScript to handle blog generation -->
     <script>
         document.getElementById('generateBlogButton').addEventListener('click', async () => {
             const youtubeLink = document.getElementById('youtubelink').value;
             const blogContent = document.getElementById('blogContent');
 
             if (youtubeLink) {
+                // Show loading spinner
                 document.getElementById('loading-spinner').style.display = 'block';
                 blogContent.innerHTML = ''; // Clear previous content
 
-                const endpointUrl = '/generate-blog';
+                const endpointUrl = '/generate-blog/';
                 try {
                     const response = await fetch(endpointUrl, {
                         method: 'POST',
@@ -106,6 +118,7 @@
                     console.error("Error occurred:", error);
                     alert("Something went wrong. Please try again later.");
                 }
+                // Hide loading spinner
                 document.getElementById('loading-spinner').style.display = 'none';
             } else {
                 alert("Please enter a YouTube link.");

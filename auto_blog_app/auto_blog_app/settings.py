@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -74,15 +76,25 @@ WSGI_APPLICATION = 'auto_blog_app.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+env = environ.Env()
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+SECRET_KEY = env('SECRET_KEY', default='default_secret_key')
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'telepro',
         'USER': 'postgres',
-        'PASSWORD': 'oluomo0910',
+        'PASSWORD': env('DB_PASSWORD', default='default_password'),
         'HOST': 'localhost',
     }
 }
+
+ASSEMBLYAI_API_KEY = env('ASSEMBLYAI_API_KEY', default='default_assemblyai_api_key')
+OPENAI_API_KEY = env('OPENAI_API_KEY', default='default_openai_api_key')
 
 
 # Password validation
@@ -125,3 +137,11 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+LOGIN_URL = 'login'
+
+
+
