@@ -78,7 +78,7 @@ def download_audio(link):
 # Youtube transcription
 def get_transcription(link):
     audio_file = download_audio(link)
-    aai.settings.api_key = "6394dadc8486462c98cd8b7cb4d3f644"
+    aai.settings.api_key = settings.ASSEMBLYAI_API_KEY
     transcriber = aai.Transcriber()
     transcript = transcriber.transcribe(audio_file)
     return transcript.text
@@ -86,7 +86,7 @@ def get_transcription(link):
 
 def generate_blog_from_transcript(transcription):
     # Initialize OpenAI client
-    client = OpenAI(api_key='sk-proj-lfT4T8Fn0LXzLbysY1pzT3BlbkFJsqVmQ9EWUaA0LD6pryjg')
+    client = OpenAI(api_key=settings.OPENAI_API_KEY)
 
     # Call OpenAI API to generate blog content
     conversation = [
