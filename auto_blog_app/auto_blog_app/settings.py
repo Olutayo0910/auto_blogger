@@ -85,11 +85,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env('SECRET_KEY', default='default_secret_key')
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'telepro',
-        'USER': 'postgres',
-        'PASSWORD': env('DB_PASSWORD', default='default_password'),
-        'HOST': 'localhost',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'auto_blogger',
+        'USER': 'olutayo',
+        'PASSWORD': env('PASSWORD', default='default_password'),
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+        },
     }
 }
 
