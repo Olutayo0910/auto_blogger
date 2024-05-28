@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100 font-sans antialiased">
-    <!---Nav bar--->
+    <!-- Nav bar -->
     <nav class="bg-green-500 p-4 text-white flex justify-between">
         <a href="/"><h1 class="ml-4 text-3xl font-bold">Blog Generator</h1></a>
         <div>
@@ -17,32 +17,30 @@
         </div>
     </nav>
 
-    <!--Main-->
+    <!-- Main content -->
     <div class="flex items-center justify-center min-h-screen">
         <div class="bg-white p-8 shadow-md rounded-lg w-full max-w-3xl">
 
-            <!--Blog Details-->
+            <!-- Blog Details -->
             <div class="space-y-4">
                 <h2 class="text-xl font-semibold text-center">Blog Post</h2>
                 
                 <!-- Blog Post 1 -->
                 <div class="bg-gray-100 p-4 rounded-md">
-                    <h3 class="text-lg font-semibold">{{blog_article.youtube_title}}</h3>
+                    <h3 class="text-lg font-semibold mb-2">{{blog_article.youtube_title}}</h3>
                     <div class="bg-gray-200 p-4 rounded-md">
-                        <p class="text-gray-600">{{blog_article.generated_content}}</p>
+                        <textarea id="blogContent" class="w-full p-2 bg-gray-200 border-none rounded-md" rows="10" readonly>{{blog_article.generated_content}}</textarea>
+                        <button id="copyButton" class="mt-2 bg-green-500 hover:bg-green-400 text-white py-2 px-4 rounded-md">Copy</button>
                     </div>
-                    <h4 class="text-lg font-semibold mt-4">Youtube Title</h3>
+                    <h4 class="text-lg font-semibold mt-4">YouTube Title</h4>
                     <p class="text-sm text-gray-500">{{blog_article.youtube_title}}</p>
-                    <h4 class="text-lg font-semibold mt-4">Youtube link</h3>
+                    <h4 class="text-lg font-semibold mt-4">YouTube Link</h4>
                     <a href="{{blog_article.youtube_link}}" class="text-blue-500 hover:underline">{{blog_article.youtube_link}}</a>
                     <!-- Blog Author -->
                     <p class="text-sm text-gray-500">Written by: {{blog_article.user}}</p>
                     <!-- Blog Date -->
                     <p class="text-sm text-gray-500">Date: {{blog_article.created_at}}</p>
                 </div>
-
-               
-                <!-- Add more blog posts here -->
             </div>
             
             <!-- Back to All Blog Posts Link -->
@@ -52,5 +50,16 @@
     <footer class="text-center text-black mt-6">
         Powered by Olutayo Ogunlade
     </footer>
+
+    <!-- JavaScript for Copy Button -->
+    <script>
+        document.getElementById('copyButton').addEventListener('click', () => {
+            const blogContent = document.getElementById('blogContent');
+            blogContent.select();
+            blogContent.setSelectionRange(0, 99999); // For mobile devices
+            document.execCommand('copy');
+            alert('Content copied to clipboard');
+        });
+    </script>
 </body>
 </html>

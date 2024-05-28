@@ -50,7 +50,7 @@
             <a href="https://www.gmail.com/" class="text-black hover:underline"><i class="fa-solid fa-m"></i> Gmail</a>
         </div>
         
-            <!-- User welcome message and logout link -->
+        <!-- User welcome message and logout link -->
         <div>
             <a href="#" class="text-black hover:underline mx-4">Hi {{ user.username }}</a>
             <a href="/blog-list" class="text-black hover:underline mx-4">Saved Blog Posts</a>
@@ -59,7 +59,7 @@
     </nav>
     
     <!-- Main content area -->
-    <div class="flex-grow flex items-center justify-center">
+    <div class="flex-grow flex items-center justify-center mt-16 mb-16">
         <div class="bg-white max-w-3xl mx-auto p-6 rounded-lg shadow-md transition-transform transform hover:scale-105 flex flex-col w-full">
             <!-- YouTube video section -->
             <div id="youtubeVideo" class="mt-10" style="display: none;">
@@ -86,7 +86,12 @@
             <!-- Generated blog article section -->
             <section class="mt-10 flex-grow">
                 <h2 class="text-xl mb-4 text-center font-semibold">Generated Article</h2>
-                <div id="blogContent" class="mt-2 text-gray-700 space-y-2">
+                <div id="blogContentWrapper" class="mt-2 text-gray-700 space-y-2" style="display: none;">
+                    <!-- Copy box -->
+                    <div class="bg-gray-200 p-4 rounded-md">
+                        <textarea id="blogContent" class="w-full p-2 bg-gray-200 border-none rounded-md" rows="10" readonly></textarea>
+                        <button id="copyButton" class="mt-2 bg-green-500 hover:bg-green-400 text-white py-2 px-4 rounded-md">Copy</button>
+                    </div>
                 </div>
             </section>
         </div>
@@ -97,7 +102,7 @@
         Powered by Olutayo Ogunlade
     </footer>
 
-    <!-- JavaScript to handle blog generation -->
+    <!-- JavaScript to handle blog generation and copy functionality -->
     <script>
         document.getElementById('youtubelink').addEventListener('input', () => {
             const youtubeLink = document.getElementById('youtubelink').value;
@@ -129,11 +134,13 @@
         document.getElementById('generateBlogButton').addEventListener('click', async () => {
             const youtubeLink = document.getElementById('youtubelink').value;
             const blogContent = document.getElementById('blogContent');
+            const blogContentWrapper = document.getElementById('blogContentWrapper');
 
             if (youtubeLink) {
                 // Show loading spinner
                 document.getElementById('loading-spinner').style.display = 'block';
-                blogContent.innerHTML = ''; // Clear previous content
+                blogContent.value = ''; // Clear previous content
+                blogContentWrapper.style.display = 'none'; // Hide the blog content wrapper initially
 
                 const endpointUrl = '/generate-blog/';
                 try {
@@ -146,7 +153,12 @@
                     });
 
                     const data = await response.json();
-                    blogContent.innerHTML = data.content;
+                    blogContent.value = data.content;
+
+                    // Display the blog content wrapper if there is content
+                    if (data.content) {
+                        blogContentWrapper.style.display = 'block';
+                    }
                 } catch (error) {
                     console.error("Error occurred:", error);
                     alert("Something went wrong. Please try again later.");
@@ -156,6 +168,14 @@
             } else {
                 alert("Please enter a YouTube link.");
             }
+        });
+
+        document.getElementById('copyButton').addEventListener('click', () => {
+            const blogContent = document.getElementById('blogContent');
+            blogContent.select();
+            blogContent.setSelectionRange(0, 99999); // For mobile devices
+            document.execCommand('copy');
+            alert('Content copied to clipboard');
         });
     </script>
 </body>
