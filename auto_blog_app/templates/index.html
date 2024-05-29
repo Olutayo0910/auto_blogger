@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,26 +41,41 @@
             transform: scaleY(1.2); /* Adjust this value to change the height */
             display: inline-block; /* Ensure the transform doesn't affect surrounding elements */
         }
+        body {
+            background-image: url("{% static 'bg2.png' %}");
+            background-size: 70%; /* Adjust this value to scale the image */
+            background-repeat: no-repeat;
+            background-position: center; /* Center the image */
+        }
     </style>
 </head>
-<body class="flex flex-col min-h-screen bg-green-100 font-sans antialiased">
+<body class="flex flex-col min-h-screen bg-gray-300 font-sans antialiased">
     <!-- Navigation bar -->
-    <nav class="bg-gray-100 p-4 text-black flex justify-between border-b border-green-500">
+    <nav class="bg-gray-100 p-4 text-black flex justify-between border-b border-green-500 flex-wrap">
         <!-- Logo -->
-        <h1 class="text-3xl text-center text-green-500 font-bold text-tall">Bloogle</h1>
-        <div>
+        <a class="flex items-center text-green-400 no-underline hover:no-underline font-bold text-2xl lg:text-4xl"  href="#"> 
+            <svg class="h-8 fill-current text-green-600 pr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm-5.6-4.29a9.95 9.95 0 0 1 11.2 0 8 8 0 1 0-11.2 0zm6.12-7.64l3.02-3.02 1.41 1.41-3.02 3.02a2 2 0 1 1-1.41-1.41z"/></svg> BLOG GENERATOR
+       </a>
+        <div class="flex justify-end md:justify-between w-full md:w-auto">
             <!-- Links to external sites -->
-            <a href="https://www.youtube.com/" class="mr-2 text-black hover:underline"><i class="fa-brands fa-youtube text-red-500"></i> YouTube</a>
-            <a href="https://www.gmail.com/" class="text-black hover:underline"><i class="fa-solid fa-m"></i> Gmail</a>
-        
-        
-        <!-- User welcome message and logout link -->
-        
-            <a href="#" class="text-black hover:underline mx-4">Hi {{ user.username }}</a>
-            <a href="/blog-list" class="text-black hover:underline mx-4">Saved Blog Posts</a>
-            <a href="/logout" class="text-black hover:underline">Logout</a>
+            <div class="md:hidden">
+                <!-- Menu button for small screens -->
+                <button id="menuToggle" class="text-black hover:underline">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            <div id="rightSideBar" class="md:flex hidden md:flex-row flex-col">
+                <a href="https://www.youtube.com/" class="mr-2 text-black hover:underline"><i class="fa-brands fa-youtube text-red-500"></i> YouTube</a>
+                <a href="https://www.gmail.com/" class="text-black hover:underline"><i class="fa-solid fa-m"></i> Gmail</a>
+                <a href="#" class="text-black hover:underline mx-4">Hi {{ user.username }}</a>
+                <a href="/blog-list" class="text-black hover:underline mx-4">Saved Blog Posts</a>
+                <a href="/logout" class="text-black hover:underline">Logout</a>
+            </div>
         </div>
     </nav>
+
+
+    
     
     <!-- Main content area -->
     <div class="flex-grow flex items-center justify-center mt-16 mb-16">
@@ -104,80 +121,97 @@
     </footer>
 
     <!-- JavaScript to handle blog generation and copy functionality -->
-    <script>
-        document.getElementById('youtubelink').addEventListener('input', () => {
-            const youtubeLink = document.getElementById('youtubelink').value;
-            const youtubePlayer = document.getElementById('youtubePlayer');
-            const youtubeVideo = document.getElementById('youtubeVideo');
+<script>
+    document.getElementById('youtubelink').addEventListener('input', () => {
+        const youtubeLink = document.getElementById('youtubelink').value;
+        const youtubePlayer = document.getElementById('youtubePlayer');
+        const youtubeVideo = document.getElementById('youtubeVideo');
 
-            if (youtubeLink) {
-                const videoId = getYoutubeVideoId(youtubeLink);
-                if (videoId) {
-                    youtubePlayer.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-                    youtubeVideo.style.display = 'block';
-                } else {
-                    youtubePlayer.src = '';
-                    youtubeVideo.style.display = 'none';
-                }
+        if (youtubeLink) {
+            const videoId = getYoutubeVideoId(youtubeLink);
+            if (videoId) {
+                youtubePlayer.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+                youtubeVideo.style.display = 'block';
             } else {
                 youtubePlayer.src = '';
                 youtubeVideo.style.display = 'none';
             }
-        });
-
-        function getYoutubeVideoId(link) {
-            // Regular expression to match YouTube video ID in various formats
-            const regex = /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-            const match = link.match(regex);
-            return match ? match[1] : null;
+        } else {
+            youtubePlayer.src = '';
+            youtubeVideo.style.display = 'none';
         }
+    });
 
-        document.getElementById('generateBlogButton').addEventListener('click', async () => {
-            const youtubeLink = document.getElementById('youtubelink').value;
-            const blogContent = document.getElementById('blogContent');
-            const blogContentWrapper = document.getElementById('blogContentWrapper');
+    function getYoutubeVideoId(link) {
+        // Regular expression to match YouTube video ID in various formats
+        const regex = /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+        const match = link.match(regex);
+        return match ? match[1] : null;
+    }
 
-            if (youtubeLink) {
-                // Show loading spinner
-                document.getElementById('loading-spinner').style.display = 'block';
-                blogContent.value = ''; // Clear previous content
-                blogContentWrapper.style.display = 'none'; // Hide the blog content wrapper initially
+    document.getElementById('generateBlogButton').addEventListener('click', async () => {
+        const youtubeLink = document.getElementById('youtubelink').value;
+        const blogContent = document.getElementById('blogContent');
+        const blogContentWrapper = document.getElementById('blogContentWrapper');
 
-                const endpointUrl = '/generate-blog/';
-                try {
-                    const response = await fetch(endpointUrl, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ link: youtubeLink })
-                    });
+        if (youtubeLink) {
+            // Show loading spinner
+            document.getElementById('loading-spinner').style.display = 'block';
+            blogContent.value = ''; // Clear previous content
+            blogContentWrapper.style.display = 'none'; // Hide the blog content wrapper initially
 
-                    const data = await response.json();
-                    blogContent.value = data.content;
+            const endpointUrl = '/generate-blog/';
+            try {
+                const response = await fetch(endpointUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ link: youtubeLink })
+                });
 
-                    // Display the blog content wrapper if there is content
-                    if (data.content) {
-                        blogContentWrapper.style.display = 'block';
-                    }
-                } catch (error) {
-                    console.error("Error occurred:", error);
-                    alert("Something went wrong. Please try again later.");
+                const data = await response.json();
+                blogContent.value = data.content;
+
+                // Display the blog content wrapper if there is content
+                if (data.content) {
+                    blogContentWrapper.style.display = 'block';
                 }
-                // Hide loading spinner
-                document.getElementById('loading-spinner').style.display = 'none';
-            } else {
-                alert("Please enter a YouTube link.");
+            } catch (error) {
+                console.error("Error occurred:", error);
+                alert("Something went wrong. Please try again later.");
             }
-        });
+            // Hide loading spinner
+            document.getElementById('loading-spinner').style.display = 'none';
+        } else {
+            alert("Please enter a YouTube link.");
+        }
+    });
 
-        document.getElementById('copyButton').addEventListener('click', () => {
-            const blogContent = document.getElementById('blogContent');
-            blogContent.select();
-            blogContent.setSelectionRange(0, 99999); // For mobile devices
-            document.execCommand('copy');
-            alert('Content copied to clipboard');
-        });
-    </script>
-</body>
-</html>
+    document.getElementById('copyButton').addEventListener('click', () => {
+        const blogContent = document.getElementById('blogContent');
+        blogContent.select();
+        blogContent.setSelectionRange(0, 99999); // For mobile devices
+        document.execCommand('copy');
+        alert('Content copied to clipboard');
+    });
+
+    // JavaScript to handle navbar collapse
+    // Function to toggle the visibility of the right side menu and change button icon
+    function toggleMenu() {
+        var menu = document.getElementById('rightSideBar');
+        var menuToggle = document.getElementById('menuToggle');
+
+        if (menu.style.display === 'none' || menu.style.display === '') {
+            menu.style.display = 'flex';
+            menu.style.flexDirection = 'column'; // Change flex direction to column
+            menuToggle.innerHTML = '<i class="fas fa-times"></i>'; // Change button icon to X
+        } else {
+            menu.style.display = 'none';
+            menuToggle.innerHTML = '<i class="fas fa-bars"></i>'; // Change button icon to menu bars
+        }
+    }
+
+    // Add event listener to the menu toggle button
+    document.getElementById('menuToggle').addEventListener('click', toggleMenu);
+</script>

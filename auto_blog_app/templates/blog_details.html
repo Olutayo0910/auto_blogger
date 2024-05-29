@@ -8,12 +8,15 @@
 </head>
 <body class="bg-gray-100 font-sans antialiased">
     <!-- Nav bar -->
-    <nav class="bg-green-500 p-4 text-white flex justify-between">
-        <a href="/"><h1 class="ml-4 text-3xl font-bold">Blog Generator</h1></a>
+    <nav class="bg-gray-100 p-4 text-black flex justify-between border-b border-green-500 flex-wrap">
+        <!-- Logo -->
+        <a class="flex items-center text-green-400 no-underline hover:no-underline font-bold text-2xl lg:text-4xl"  href="/"> 
+            <svg class="h-8 fill-current text-green-600 pr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm-5.6-4.29a9.95 9.95 0 0 1 11.2 0 8 8 0 1 0-11.2 0zm6.12-7.64l3.02-3.02 1.41 1.41-3.02 3.02a2 2 0 1 1-1.41-1.41z"/></svg> BLOG GENERATOR
+        </a>
         <div>
-            <a href="#" class="text-white hover:underline mx-4">Welcome {{ user.username }}</a>
-            <a href="/blog-list" class="text-white hover:underline mx-4">Saved Blog Posts</a>
-            <a href="/logout" class="text-white hover:underline">Logout</a>
+            <a href="#" class="text-black hover:underline mx-4">Welcome {{ user.username }}</a>
+            <a href="/blog-list" class="text-black hover:underline mx-4">Saved Blog Posts</a>
+            <a href="/logout" class="text-black hover:underline">Logout</a>
         </div>
     </nav>
 

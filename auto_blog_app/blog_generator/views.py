@@ -19,6 +19,9 @@ import logging
 def index(request):
     return render(request, 'index.html')
 
+def landing_page(request):
+    return render(request, 'landing-page.html')
+
 # Handling API
 @csrf_exempt
 def generate_blog(request):
