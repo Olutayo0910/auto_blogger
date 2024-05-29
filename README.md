@@ -1,6 +1,6 @@
+# AI Blog Generator
 ![hp](https://github.com/Olutayo0910/auto_blogger/assets/121323757/cc263d49-4f4d-45f9-b68b-1f11b987e89a)
 
-# AI Blog Generator
 AI Blog Generator is a Django-based web application that generates blog posts from YouTube video transcriptions using AssemblyAI and OpenAI GPT-3.5. The application allows users to paste YouTube links, generate transcriptions of the video content, and create blog posts from these transcriptions.
 
 ## Features
