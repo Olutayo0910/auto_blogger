@@ -49,17 +49,17 @@ Ensure you have the following installed:
 
 5. **Apply migrations:**
     ```bash
-    python manage.py migrate
+    python3 manage.py migrate
     ```
 
 6. **Create a superuser:**
     ```bash
-    python manage.py createsuperuser
+    python3 manage.py createsuperuser
     ```
 
 7. **Run the development server:**
     ```bash
-    python manage.py runserver
+    python3 manage.py runserver
     ```
 
 8. **Access the application:**
